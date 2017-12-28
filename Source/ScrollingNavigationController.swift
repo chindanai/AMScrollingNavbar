@@ -349,12 +349,16 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
         $0.transform = $0.transform.translatedBy(x: 0, y: -delta)
         return
       }
+// ------------------ZON------------------
       if (self.viewControllers.last?.hidesBottomBarWhenPushed == true) {
         return
       }
+// --------------------------------------------
       tabBar.isTranslucent = true
+// ------------------original------------------
+//      tabBar.frame.origin.y += delta * 1.5
+// --------------------------------------------
       tabBar.frame.origin.y += delta * 1.7
-
       // Set the bar to its original state if it's in its original position
       if let originalTabBar = sourceTabBar, originalTabBar.frame.origin.y == tabBar.frame.origin.y {
         tabBar.isTranslucent = originalTabBar.isTranslucent
@@ -376,6 +380,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       let navBarY = navigationBar.frame.origin.y + navigationBar.frame.size.height
       frame = topViewController.view.frame
       frame.origin = CGPoint(x: frame.origin.x, y: navBarY)
+      
+// ------------------original------------------
+//      frame.size = CGSize(width: frame.size.width, height: view.frame.size.height - (navBarY) - tabBarOffset)
+// --------------------------------------------
       frame.size = CGSize(width: frame.size.width, height: view.frame.size.height - (navBarY) + tabBarOffset)
       topViewController.view.frame = frame
     }
