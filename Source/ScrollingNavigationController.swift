@@ -353,6 +353,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       if (self.viewControllers.last?.hidesBottomBarWhenPushed == true) {
         return
       }
+      let frame = navigationBar.frame
+      let alpha = (frame.origin.y + deltaLimit) / frame.size.height
+      tabBar.alpha = alpha
 // --------------------------------------------
       tabBar.isTranslucent = true
 // ------------------original------------------
