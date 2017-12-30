@@ -48,7 +48,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       }
     }
   }
-
+  // ------------------ZON------------------
+  private var originalNavigationBarTintColor: UIColor?
+  // ------------------ZON------------------
+  
   /**
    Determines whether the navbar should scroll when the content inside the scrollview fits
    the view's size. Defaults to `false`
@@ -97,8 +100,11 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    - parameter followers: An array of `UIView`s that will follow the navbar
    */
   open func followScrollView(_ scrollableView: UIView, delay: Double = 0, scrollSpeedFactor: Double = 1, followers: [UIView] = []) {
+    // ------------------ZON------------------
+    self.originalNavigationBarTintColor = self.navigationBar.tintColor
+    // ------------------ZON------------------
+    
     self.scrollableView = scrollableView
-
     gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ScrollingNavigationController.handlePan(_:)))
     gestureRecognizer?.maximumNumberOfTouches = 1
     gestureRecognizer?.delegate = self
@@ -442,13 +448,21 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
     // Hide all the possible titles
     navigationItem.titleView?.alpha = alpha
-    navigationBar.tintColor = navigationBar.tintColor.withAlphaComponent(alpha)
-    if let titleColor = navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor {
-      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = titleColor.withAlphaComponent(alpha)
+    
+    // ------------------ZON------------------
+    if let originalTint = originalNavigationBarTintColor {
+      navigationBar.tintColor = originalTint.withAlphaComponent(alpha)
+      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = originalTint.withAlphaComponent(alpha)
     } else {
-      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.black.withAlphaComponent(alpha)
+      navigationBar.tintColor = navigationBar.tintColor.withAlphaComponent(alpha)
+      if let titleColor = navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor {
+        navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = titleColor.withAlphaComponent(alpha)
+      } else {
+        navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.black.withAlphaComponent(alpha)
+      }
     }
-
+    // ------------------ZON------------------
+    
     // Hide all possible button items and navigation items
     func shouldHideView(_ view: UIView) -> Bool {
       let className = view.classForCoder.description()
