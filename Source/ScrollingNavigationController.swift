@@ -442,7 +442,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
   private func updateNavbarAlpha() {
     guard let navigationItem = visibleViewController?.navigationItem else { return }
-
+    // ------------------ZON------------------
+    if navigationBar.isHidden { return }
+    // ------------------ZON------------------
     let frame = navigationBar.frame
 
     // Change the alpha channel of every item on the navbr
