@@ -161,7 +161,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    */
   open func showNavbar(animated: Bool = true, duration: TimeInterval = 0.1) {
     guard let _ = self.scrollableView, let visibleViewController = self.visibleViewController else { return }
-
+    // ------------------ZON------------------
+    navigationBar.topItem?.titleView?.alpha = 1
+    // ------------------ZON------------------
     if state == .collapsed {
       gestureRecognizer?.isEnabled = false
       let animations = {
