@@ -474,7 +474,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       return className == "UINavigationButton" ||
         className == "UINavigationItemView" ||
         className == "UIImageView" ||
-        className == "UISegmentedControl" ||
+        className == "UISegmentedControl"
     }
     
     func setAlphaOfSubviews(view: UIView, alpha: CGFloat) {
