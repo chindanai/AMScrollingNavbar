@@ -50,6 +50,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   }
   // ------------------ZON------------------
   private var originalNavigationBarTintColor: UIColor?
+  private var originalNavigationTitleColor: UIColor?
   // ------------------ZON------------------
   
   /**
@@ -102,6 +103,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   open func followScrollView(_ scrollableView: UIView, delay: Double = 0, scrollSpeedFactor: Double = 1, followers: [UIView] = []) {
     // ------------------ZON------------------
     self.originalNavigationBarTintColor = self.navigationBar.tintColor
+    self.originalNavigationTitleColor = self.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor
     // ------------------ZON------------------
     
     self.scrollableView = scrollableView
@@ -454,7 +456,8 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     // ------------------ZON------------------
     if let originalTint = originalNavigationBarTintColor {
       navigationBar.tintColor = originalTint.withAlphaComponent(alpha)
-      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = originalTint.withAlphaComponent(alpha)
+      let originalTitleColor = originalNavigationTitleColor ?? originalTint
+      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = originalTitleColor.withAlphaComponent(alpha)
     } else {
       navigationBar.tintColor = navigationBar.tintColor.withAlphaComponent(alpha)
       if let titleColor = navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor {
@@ -472,7 +475,6 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
         className == "UINavigationItemView" ||
         className == "UIImageView" ||
         className == "UISegmentedControl" ||
-        className == "UINavigationBarContentView"
     }
     
     func setAlphaOfSubviews(view: UIView, alpha: CGFloat) {
