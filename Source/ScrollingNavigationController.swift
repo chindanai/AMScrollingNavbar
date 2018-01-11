@@ -200,7 +200,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    - parameter showingNavbar: If true the navbar is show, otherwise it remains in its current state. Defaults to `true`
    */
   open func stopFollowingScrollView(showingNavbar: Bool = true) {
-    if showingNavbar {
+    if showingNavbar && state != .expanded {
       showNavbar(animated: true)
     }
     if let gesture = gestureRecognizer {
@@ -474,7 +474,8 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       return className == "UINavigationButton" ||
         className == "UINavigationItemView" ||
         className == "UIImageView" ||
-        className == "UISegmentedControl"
+        className == "UISegmentedControl" ||
+        className == "UINavigationBarContentView"
     }
     
     func setAlphaOfSubviews(view: UIView, alpha: CGFloat) {
