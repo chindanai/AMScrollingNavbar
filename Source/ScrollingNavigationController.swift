@@ -218,7 +218,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
 
   // MARK: - Gesture recognizer
 
-  func handlePan(_ gesture: UIPanGestureRecognizer) {
+  open func handlePan(_ gesture: UIPanGestureRecognizer) {
     if gesture.state != .failed {
       if let superview = scrollableView?.superview {
         let translation = gesture.translation(in: superview)
