@@ -357,6 +357,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   private func updateFollowers(_ delta: CGFloat) {
     followers.forEach {
       guard let tabBar = $0 as? UITabBar else {
+        let frame = $0.frame
+        let alpha = (frame.origin.y + deltaLimit) / frame.size.height
+        $0.alpha = alpha
         $0.transform = $0.transform.translatedBy(x: 0, y: -delta)
         return
       }
