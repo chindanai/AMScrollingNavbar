@@ -361,6 +361,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   }
 
   private func updateFollowers(_ delta: CGFloat) {
+    print("delta = \(delta)")
+    print("navbarHeight = \(navbarHeight)")
+    print("fullNavbarHeight = \(fullNavbarHeight)")
     followers.forEach {
       guard let tabBar = $0 as? UITabBar else {
         $0.transform = $0.transform.translatedBy(x: 0, y: -delta)
