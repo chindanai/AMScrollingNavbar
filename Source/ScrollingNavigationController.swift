@@ -13,6 +13,11 @@ import UIKit
    Called when the state of the navigation bar is about to change
    */
   @objc optional func scrollingNavigationController(_ controller: ScrollingNavigationController, willChangeState state: NavigationBarState)
+ 
+  /**
+   Called when the navigation bar offset delta change 
+   */
+  @objc optional func scrollingNavigationController(_ controller: ScrollingNavigationController, didChange delta: CGFloat, fullNavbarHeight: CGFloat)
 }
 
 /**
@@ -352,7 +357,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     updateNavbarAlpha()
     restoreContentOffset(scrollDelta)
     updateFollowers(scrollDelta)
+    scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: scrollDelta, fullNavbarHeight: self.fullNavbarHeight)
   }
+ 
+  file
 
   private func updateFollowers(_ delta: CGFloat) {
     followers.forEach {
@@ -440,6 +448,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       self.updateSizing(delta)
       self.updateFollowers(delta)
       self.updateNavbarAlpha()
+      self.scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: delta, fullNavbarHeight: self.fullNavbarHeight)
     }, completion: nil)
   }
 
