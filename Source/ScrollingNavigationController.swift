@@ -17,7 +17,7 @@ import UIKit
   /**
    Called when the navigation bar offset delta change 
    */
-  @objc optional func scrollingNavigationController(_ controller: ScrollingNavigationController, didChangeDelta delta: CGFloat, fullNavbarHeight: CGFloat)
+  @objc optional func scrollingNavigationController(_ controller: ScrollingNavigationController, didChangeDelta delta: CGFloat, navbarHeight: CGFloat)
 }
 
 /**
@@ -357,13 +357,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     updateNavbarAlpha()
     restoreContentOffset(scrollDelta)
     updateFollowers(scrollDelta)
-    scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: scrollDelta, fullNavbarHeight: self.fullNavbarHeight)
+    scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: scrollDelta, navbarHeight: self.navbarHeight)
   }
 
   private func updateFollowers(_ delta: CGFloat) {
-    print("delta = \(delta)")
-    print("navbarHeight = \(navbarHeight)")
-    print("fullNavbarHeight = \(fullNavbarHeight)")
     followers.forEach {
       guard let tabBar = $0 as? UITabBar else {
         $0.transform = $0.transform.translatedBy(x: 0, y: -delta)
@@ -449,7 +446,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       self.updateSizing(delta)
       self.updateFollowers(delta)
       self.updateNavbarAlpha()
-      self.scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: delta, fullNavbarHeight: self.fullNavbarHeight)
+      self.scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeDelta: delta, navbarHeight: self.navbarHeight)
     }, completion: nil)
   }
 
