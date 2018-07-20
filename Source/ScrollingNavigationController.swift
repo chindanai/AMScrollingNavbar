@@ -245,7 +245,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   // MARK: - Rotation handler
 
   func didRotate(_ notification: Notification) {
-    showNavbar()
+    //showNavbar()
   }
 
   /**
