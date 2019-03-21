@@ -108,14 +108,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    - parameter scrollSpeedFactor : This factor determines the speed of the scrolling content toward the navigation bar animation
    - parameter followers: An array of `UIView`s that will follow the navbar
    */
-  open override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    navFrame = navigationBar.frame
-  }
   
   open func followScrollView(_ scrollableView: UIView, delay: Double = 0, scrollSpeedFactor: Double = 1, followers: [UIView] = []) {
     // ------------------ZON------------------
+    navFrame = navigationBar.frame
     self.originalNavigationBarTintColor = self.navigationBar.tintColor
     self.originalNavigationTitleColor = self.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor
     // ------------------ZON------------------
