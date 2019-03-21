@@ -108,13 +108,18 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
    - parameter scrollSpeedFactor : This factor determines the speed of the scrolling content toward the navigation bar animation
    - parameter followers: An array of `UIView`s that will follow the navbar
    */
+  open override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    navFrame = navigationBar.frame
+  }
+  
   open func followScrollView(_ scrollableView: UIView, delay: Double = 0, scrollSpeedFactor: Double = 1, followers: [UIView] = []) {
     // ------------------ZON------------------
     self.originalNavigationBarTintColor = self.navigationBar.tintColor
     self.originalNavigationTitleColor = self.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor
     // ------------------ZON------------------
-    
-    navFrame = navigationBar.frame
+  
     self.scrollableView = scrollableView
     gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ScrollingNavigationController.handlePan(_:)))
     gestureRecognizer?.maximumNumberOfTouches = 1
@@ -405,9 +410,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     // Move the navigation bar
     frame.origin = CGPoint(x: frame.origin.x, y: frame.origin.y - delta)
     
-//    if (!ignoreNavbarScrolling) {
+    if (!ignoreNavbarScrolling) {
         navigationBar.frame = frame
-//    }
+    }
     
     navFrame = frame
     
@@ -468,6 +473,10 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   }
   
   private func updateNavbarAlpha() {
+    if ignoreNavbarScrolling {
+      return
+    }
+    
     guard let navigationItem = visibleViewController?.navigationItem else { return }
     let frame = navigationBar.frame
     
