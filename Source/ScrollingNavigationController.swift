@@ -58,7 +58,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   private var originalNavigationTitleColor: UIColor?
   
   private var navFrame = CGRect.zero
-  var ignoreNavbarScrolling = false
+  open var ignoreNavbarScrolling = false
   // ------------------ZON------------------
   
   /**
