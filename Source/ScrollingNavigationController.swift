@@ -405,7 +405,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     // Move the navigation bar
     frame.origin = CGPoint(x: frame.origin.x, y: frame.origin.y - delta)
     
-    if (ignoreNavbarScrolling) {
+    if (!ignoreNavbarScrolling) {
         navigationBar.frame = frame
     }
     
