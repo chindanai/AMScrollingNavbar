@@ -115,7 +115,6 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     // ------------------ZON------------------
     
     navFrame = navigationBar.frame
-    ignoreNavbarScrolling = true
     self.scrollableView = scrollableView
     gestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ScrollingNavigationController.handlePan(_:)))
     gestureRecognizer?.maximumNumberOfTouches = 1
