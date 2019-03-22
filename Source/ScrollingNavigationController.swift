@@ -47,7 +47,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       }
     }
     didSet {
-      navigationBar.isUserInteractionEnabled = (state == .expanded)
+      navigationBar.isUserInteractionEnabled = (state == .expanded) || ignoreNavbarScrolling
       if state != oldValue {
         scrollingNavbarDelegate?.scrollingNavigationController?(self, didChangeState: state)
       }
@@ -399,26 +399,26 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   
   private func updateSizing(_ delta: CGFloat) {
     guard let topViewController = self.topViewController else { return }
-    
+
     var frame = navFrame//navigationBar.frame
-    
-    
+
+
     // Move the navigation bar
     frame.origin = CGPoint(x: frame.origin.x, y: frame.origin.y - delta)
-    
+
     if (!ignoreNavbarScrolling) {
         navigationBar.frame = frame
     }
-    
+
     navFrame = frame
-    
-    
+
+
     // Resize the view if the navigation bar is not translucent
     if !navigationBar.isTranslucent {
       let navBarY = navigationBar.frame.origin.y + navigationBar.frame.size.height
       frame = topViewController.view.frame
       frame.origin = CGPoint(x: frame.origin.x, y: navBarY)
-      
+
       // ------------------original------------------
       //      frame.size = CGSize(width: frame.size.width, height: view.frame.size.height - (navBarY) - tabBarOffset)
       // --------------------------------------------
