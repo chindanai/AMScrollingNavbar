@@ -113,7 +113,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     // ------------------ZON------------------
     navFrame = navigationBar.frame
     self.originalNavigationBarTintColor = self.navigationBar.tintColor
-    self.originalNavigationTitleColor = self.navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor
+    self.originalNavigationTitleColor = self.navigationBar.titleTextAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor
     // ------------------ZON------------------
   
     self.scrollableView = scrollableView
@@ -122,9 +122,9 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     gestureRecognizer?.delegate = self
     scrollableView.addGestureRecognizer(gestureRecognizer!)
     
-    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.willResignActive(_:)), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.didBecomeActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.didRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.willResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.didBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(ScrollingNavigationController.didRotate(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
     
     maxDelay = CGFloat(delay)
     delayDistance = CGFloat(delay)
@@ -222,13 +222,13 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     scrollingEnabled = false
     
     let center = NotificationCenter.default
-    center.removeObserver(self, name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
-    center.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    center.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+    center.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
   }
   
   // MARK: - Gesture recognizer
   
-  open func handlePan(_ gesture: UIPanGestureRecognizer) {
+  @objc open func handlePan(_ gesture: UIPanGestureRecognizer) {
     if gesture.state != .failed {
       if let superview = scrollableView?.superview {
         let translation = gesture.translation(in: superview)
@@ -249,7 +249,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   
   // MARK: - Rotation handler
   
-  func didRotate(_ notification: Notification) {
+  @objc func didRotate(_ notification: Notification) {
     //showNavbar()
   }
   
@@ -264,7 +264,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
   
   // MARK: - Notification handler
   
-  func didBecomeActive(_ notification: Notification) {
+  @objc func didBecomeActive(_ notification: Notification) {
     if expandOnActive {
       showNavbar(animated: false)
     } else {
@@ -274,7 +274,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     }
   }
   
-  func willResignActive(_ notification: Notification) {
+  @objc func willResignActive(_ notification: Notification) {
     previousState = state
   }
   
@@ -460,7 +460,7 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     
     delayDistance = maxDelay
     
-    UIView.animate(withDuration: duration, delay: 0, options: UIViewAnimationOptions.beginFromCurrentState, animations: {
+    UIView.animate(withDuration: duration, delay: 0, options: UIView.AnimationOptions.beginFromCurrentState, animations: {
       self.updateSizing(delta)
       self.updateFollowers(delta)
       self.updateNavbarAlpha()
@@ -486,13 +486,13 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
     if let originalTint = originalNavigationBarTintColor {
       navigationBar.tintColor = originalTint.withAlphaComponent(alpha)
       let originalTitleColor = originalNavigationTitleColor ?? originalTint
-      navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = originalTitleColor.withAlphaComponent(alpha)
+      navigationBar.titleTextAttributes?[NSAttributedString.Key.foregroundColor] = originalTitleColor.withAlphaComponent(alpha)
     } else {
       navigationBar.tintColor = navigationBar.tintColor.withAlphaComponent(alpha)
-      if let titleColor = navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor {
-        navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = titleColor.withAlphaComponent(alpha)
+      if let titleColor = navigationBar.titleTextAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor {
+        navigationBar.titleTextAttributes?[NSAttributedString.Key.foregroundColor] = titleColor.withAlphaComponent(alpha)
       } else {
-        navigationBar.titleTextAttributes?[NSForegroundColorAttributeName] = UIColor.black.withAlphaComponent(alpha)
+        navigationBar.titleTextAttributes?[NSAttributedString.Key.foregroundColor] = UIColor.black.withAlphaComponent(alpha)
       }
     }
     // ------------------ZON------------------
