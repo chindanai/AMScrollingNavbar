@@ -385,9 +385,16 @@ open class ScrollingNavigationController: UINavigationController, UIGestureRecog
       // --------------------------------------------
       
       // ------------------ZON------------------
-      let originY = tabBar.frame.origin.y + (delta * 1.7)
-      if originY < self.view.frame.size.height {
-        tabBar.frame.origin.y += delta * 1.7
+      let viewHeight = ceil(self.view.frame.size.height)
+      let tabbarMaxY = ceil(tabBar.frame.maxY)
+      let expandTabBarY = ceil(viewHeight - tabBar.frame.size.height)
+      if tabbarMaxY >= viewHeight {
+      let newTabbarOriginY = tabBar.frame.origin.y + (delta * 1.7)
+          if newTabbarOriginY > expandTabBarY {
+              tabBar.frame.origin.y = newTabbarOriginY
+          } else {
+              tabBar.frame.origin.y = expandTabBarY
+          }
       }
       // --------------------------------------------
       // Set the bar to its original state if it's in its original position
